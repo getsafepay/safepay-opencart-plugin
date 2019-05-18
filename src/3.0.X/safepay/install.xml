@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+    <name>SafePay Checkout</name>
+    <version>1.0</version>
+    <code>SafePay-Checkout</code>
+    <author>Ziyad Parekh</author>
+    <link>https://www.getsafepay.com</link>
+    <file path="catalog/controller/common/header.php">
+        <operation info="Include SafePay Script in Head">
+            <search><![CDATA[$data['title'] = $this->document->getTitle();]]></search>
+            <add position="after"><![CDATA[
+        if ($this->config->get('payment_safepay_status')) {
+            $this->document->addScript('https://storage.googleapis.com/safepayobjects/api/safepay-checkout.min.js');
+        }
+            ]]>
+            </add>
+        </operation>
+    </file>
+</modification>

@@ -1,0 +1,15 @@
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <td colspan="2">{{ tab_order_safepay_details }}</td>
+    </tr>
+  </thead>
+  <tbody>
+    {% for meta_value in meta_values %}
+    <tr>
+      <td>{{ meta_value.meta_key }}</td>
+      <td>{{ meta_value.meta_value }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
