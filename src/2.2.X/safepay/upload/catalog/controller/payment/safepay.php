@@ -17,7 +17,48 @@ class ControllerPaymentSafepay extends Controller {
 		return $this->load->view('payment/safepay', $data);
 	}
 
+	protected function validateCallback($tracker = false) {
+		if($tracker) {
+			$payment_safepay_mode = $this->config->get('payment_safepay_mode');
 
+			if($payment_safepay_mode == 'sandbox') {
+				$url = "https://sandbox.api.getsafepay.com/order/v1/".$tracker;
+			} else {
+				$url = "https://api.getsafepay.com/order/v1/".$tracker;
+			}
+
+			$ch =  curl_init($url);
+		    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+		    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+		    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
+		    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)');
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+
+			$result = curl_exec($ch);
+
+			if (curl_errno($ch)) { 
+			   return curl_error($ch);
+			}
+
+			curl_close($ch);
+
+			$result_array = json_decode($result);
+
+			if(empty($result_array->status->errors)) {
+				$state = $result_array->data->state;
+				if($state === "TRACKER_ENDED") {
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				return false;
+			}
+		} 
+	}
+	
 	public function confirm() {
 		$json = array();
 		if ($this->session->data['payment_method']['code'] ==  'safepay') {
