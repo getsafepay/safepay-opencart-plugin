@@ -18,6 +18,21 @@
 		    "sandbox": "<?php echo $payment_safepay_sandbox_apikey; ?>",
 		    "production": "<?php echo $payment_safepay_apikey; ?>"
 		  },
+			customer: {
+				"first_name": "<?php echo $order_info['firstname']; ?>",
+				"last_name": "<?php echo $order_info['lastname']; ?>",
+				"phone": "<?php echo $order_info['telephone']; ?>",
+				"email": "<?php echo $order_info['email']; ?>",
+			},
+			billing: {
+				"name": "<?php echo $order_info['payment_firstname']; ?>",
+				"address_1":"<?php echo $order_info['payment_address_1']; ?>",
+				"address_2": "<?php echo $order_info['payment_address_2']; ?>",
+				"city": "<?php echo $order_info['payment_city']; ?>",
+				"province": "<?php echo $province; ?>",
+				"postal": "<?php echo $order_info['payment_postcode']; ?>",
+				"country": "<?php echo $country; ?>",
+			},
 		  payment: function (data, actions) {
 		    return actions.payment.create({
 		      transaction: {
