@@ -9,6 +9,13 @@ class ControllerExtensionPaymentSafepay extends Controller {
 		$data['payment_safepay_sandbox_apikey'] = $this->config->get('payment_safepay_sandbox_apikey');
 		$data['payment_safepay_apikey'] = $this->config->get('payment_safepay_apikey');
 		$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
+		$data['order_info'] = $order_info;
+		$this->load->model('localisation/country');
+		$country_info = $this->model_localisation_country->getCountry($order_info['payment_country_id']);
+		$data['country'] = $country_info['iso_code_2'];
+		$this->load->model('localisation/zone');
+		$zone_info = $this->model_localisation_zone->getZone($order_info['payment_zone_id']);
+		$data['province'] = $zone_info['code'];
 		$data['total'] = $this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value'], false);
 		return $this->load->view('extension/payment/safepay', $data);
 	}
