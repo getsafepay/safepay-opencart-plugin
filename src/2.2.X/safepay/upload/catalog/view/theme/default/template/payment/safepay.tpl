@@ -25,7 +25,7 @@
 				"email": "<?php echo $order_info['email']; ?>",
 			},
 			billing: {
-				"name": "<?php echo $order_info['payment_firstname']; ?>",
+				"name": "<?php echo $order_info['payment_firstname']; ?> - Billing Address",
 				"address_1":"<?php echo $order_info['payment_address_1']; ?>",
 				"address_2": "<?php echo $order_info['payment_address_2']; ?>",
 				"city": "<?php echo $order_info['payment_city']; ?>",
